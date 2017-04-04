@@ -15,6 +15,7 @@
  */
 package org.cyanogenmod.audiofx.service;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.audiofx.AudioEffect;
 import android.os.Binder;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -157,6 +159,13 @@ public class AudioFxService extends Service
         }
 
         updateQsTile();
+
+        //Add notification (hotfix)
+        //TODO: Make 'god' service
+        Notification.Builder builder = new Notification.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher_audiofx).setContentTitle("AudioFX").setContentText("Service is running.");
+        Notification notification = notification = builder.build();;
+        startForeground(777, notification);
     }
 
     @Override
