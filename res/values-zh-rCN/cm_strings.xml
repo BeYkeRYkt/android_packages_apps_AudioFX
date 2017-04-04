@@ -35,6 +35,7 @@
   <string name="small_speakers">小型喇叭</string>
   <string name="multimedia">多媒体</string>
   <string name="custom">自定义</string>
+  <string name="custom_n">自定义 <xliff:g id="preset_num">%1$d</xliff:g></string>
   <string name="none">无</string>
   <string name="smallroom">小房间</string>
   <string name="mediumroom">中等房间</string>
@@ -42,7 +43,7 @@
   <string name="mediumhall">中厅</string>
   <string name="largehall">大厅</string>
   <string name="plate">碟</string>
-  <string name="power_on_prompt">按上右上角的电源按钮。</string>
+  <string name="power_on_prompt">按下右上方的电源键。</string>
   <string name="effect_unavalable_for_speaker">效果不适用于扬声器模式。</string>
   <string name="device_headset">耳机</string>
   <string name="device_speaker">扬声器​​​​</string>
@@ -57,6 +58,6 @@
   <string name="treble">三倍</string>
   <string name="bass">低音</string>
   <string name="rename">重命名</string>
-  <string name="remove_custom_preset_warning_message">您确定想要移除 %1$s ？</string>
+  <string name="remove_custom_preset_warning_message">您确定要移除 %1$s？</string>
   <string name="powered_by">强力驱动由</string>
 </resources>

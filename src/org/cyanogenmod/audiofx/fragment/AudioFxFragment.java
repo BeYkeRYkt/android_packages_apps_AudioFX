@@ -45,7 +45,6 @@ import org.cyanogenmod.audiofx.activity.ActivityMusic;
 import org.cyanogenmod.audiofx.activity.EqualizerManager;
 import org.cyanogenmod.audiofx.activity.MasterConfigControl;
 import org.cyanogenmod.audiofx.activity.StateCallbacks;
-import org.cyanogenmod.audiofx.stats.UserSession;
 import org.cyanogenmod.audiofx.widget.InterceptableLinearLayout;
 
 import java.util.List;
@@ -328,7 +327,9 @@ public class AudioFxFragment extends Fragment implements StateCallbacks.DeviceCh
             }
         }
         mMenuDevices.getSubMenu().setGroupCheckable(R.id.devices, true, true);
-        selectedItem.setChecked(true);
+        if (selectedItem != null) {
+            selectedItem.setChecked(true);
+        }
         mMenuDevices.setIcon(selectedItem.getIcon());
     }
 
@@ -337,7 +338,6 @@ public class AudioFxFragment extends Fragment implements StateCallbacks.DeviceCh
         AudioDeviceInfo device = mMenuItems.get(item);
 
         if (device != null) {
-            UserSession.getInstance().deviceChanged();
             mDeviceChanging = true;
             if (item.isCheckable()) {
                 item.setChecked(!item.isChecked());
