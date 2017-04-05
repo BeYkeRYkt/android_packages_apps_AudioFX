@@ -18,32 +18,34 @@ public class EffectsFactory implements IEffectFactory {
     private static int sBrand = -1; // cached value to not hit io every time we need a new effect
 
     public EffectSet createEffectSet(Context context, int sessionId,
-            AudioDeviceInfo currentDevice) {
+                                     AudioDeviceInfo currentDevice) {
+        EffectSet effects = null;
+        int brand = getBrand();
+
+        // dts?
+        if (brand == Constants.EFFECT_TYPE_DTS) {
+            try {
+                effects = new DtsEffects(context, sessionId, currentDevice);
+            } catch (Exception e) {
+                Log.e(TAG, "Unable to create DTS effects!", e);
+                effects = null;
+            }
+            return effects;
+        } else if (brand == Constants.EFFECT_TYPE_MAXXAUDIO) {
+            // try MaxxAudio next, this will throw an exception if unavailable
+            try {
+                effects = new MaxxAudioEffects(sessionId, currentDevice);
+            } catch (Exception e) {
+                Log.e(TAG, "Unable to create MaxxAudio effects!", e);
+                effects = null;
+            }
+            return effects;
+        }
+
         // if this throws, we're screwed, don't bother to recover. these
         // are the standard effects that every android device must have,
         // and if they don't exist we have bigger problems.
-        int brand = getBrand();
-        EffectSet dtsEffects;
-        if (brand == Constants.EFFECT_TYPE_DTS) {
-            try {
-                dtsEffects = new DtsEffects(context, sessionId, currentDevice);
-            } catch (Exception e) {
-                Log.e(TAG, "Unable to create DTS effects!", e);
-                dtsEffects = null;
-            }
-            return dtsEffects;
-        } else if (brand == Constants.EFFECT_TYPE_ANDROID) {
-            return new AndroidEffects(sessionId, currentDevice);
-        } else if (brand == Constants.EFFECT_TYPE_MAXXAUDIO) {
-            try {
-                dtsEffects = new MaxxAudioEffects(sessionId, currentDevice);
-            } catch (Exception e2) {
-                Log.e(TAG, "Unable to create MaxxAudio effects!", e2);
-                dtsEffects = null;
-            }
-            return dtsEffects;
-        }
-        return null;
+        return new AndroidEffects(sessionId, currentDevice);
     }
 
     public static int getBrand() {
@@ -56,8 +58,7 @@ public class EffectsFactory implements IEffectFactory {
     private static int getBrandInternal() {
         if (hasDts()) {
             return Constants.EFFECT_TYPE_DTS;
-        }
-        if (hasMaxxAudio()) {
+        } else if (hasMaxxAudio()) {
             return Constants.EFFECT_TYPE_MAXXAUDIO;
         }
         return Constants.EFFECT_TYPE_ANDROID;
