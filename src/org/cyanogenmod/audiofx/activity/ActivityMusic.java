@@ -28,11 +28,10 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import org.cyanogenmod.audiofx.AudioFxApplication;
+
 import org.cyanogenmod.audiofx.Constants;
 import org.cyanogenmod.audiofx.R;
 import org.cyanogenmod.audiofx.fragment.AudioFxFragment;
-import org.cyanogenmod.audiofx.knobs.KnobCommander;
 import org.cyanogenmod.audiofx.service.AudioFxService;
 import org.cyanogenmod.audiofx.service.DevicePreferenceManager;
 

@@ -17,6 +17,7 @@ package org.cyanogenmod.audiofx;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import org.cyanogenmod.audiofx.eq.EqUtils;
 
 public class Preset implements Parcelable {

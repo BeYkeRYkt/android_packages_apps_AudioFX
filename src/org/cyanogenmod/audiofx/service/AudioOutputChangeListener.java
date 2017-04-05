@@ -15,8 +15,6 @@
  */
 package org.cyanogenmod.audiofx.service;
 
-import static android.media.AudioDeviceInfo.convertDeviceTypeToInternalDevice;
-
 import android.content.Context;
 import android.media.AudioDeviceCallback;
 import android.media.AudioDeviceInfo;
@@ -27,6 +25,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.media.AudioDeviceInfo.convertDeviceTypeToInternalDevice;
 
 public class AudioOutputChangeListener extends AudioDeviceCallback {
 

@@ -16,7 +16,6 @@
 package org.cyanogenmod.audiofx;
 
 import android.app.Application;
-import android.util.Log;
 
 public class AudioFxApplication extends Application {
 

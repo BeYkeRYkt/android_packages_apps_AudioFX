@@ -47,7 +47,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.widget.Toast;
+
 import org.cyanogenmod.audiofx.R;
 
 public class RadialKnob extends View {

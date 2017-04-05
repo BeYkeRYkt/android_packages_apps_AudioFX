@@ -16,6 +16,7 @@
 package org.cyanogenmod.audiofx.knobs;
 
 import android.content.Context;
+
 import org.cyanogenmod.audiofx.Constants;
 import org.cyanogenmod.audiofx.activity.MasterConfigControl;
 import org.cyanogenmod.audiofx.service.AudioFxService;

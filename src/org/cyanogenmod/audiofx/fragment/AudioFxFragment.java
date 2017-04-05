@@ -38,6 +38,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+
 import org.cyanogenmod.audiofx.Compatibility;
 import org.cyanogenmod.audiofx.Constants;
 import org.cyanogenmod.audiofx.R;

@@ -15,18 +15,6 @@
  */
 package org.cyanogenmod.audiofx.activity;
 
-import static android.media.AudioDeviceInfo.TYPE_BLUETOOTH_A2DP;
-import static android.media.AudioDeviceInfo.TYPE_BLUETOOTH_SCO;
-import static android.media.AudioDeviceInfo.TYPE_DOCK;
-import static android.media.AudioDeviceInfo.TYPE_IP;
-import static android.media.AudioDeviceInfo.TYPE_LINE_ANALOG;
-import static android.media.AudioDeviceInfo.TYPE_LINE_DIGITAL;
-import static android.media.AudioDeviceInfo.TYPE_USB_ACCESSORY;
-import static android.media.AudioDeviceInfo.TYPE_USB_DEVICE;
-import static android.media.AudioDeviceInfo.TYPE_WIRED_HEADPHONES;
-import static android.media.AudioDeviceInfo.TYPE_WIRED_HEADSET;
-import static android.media.AudioDeviceInfo.convertDeviceTypeToInternalDevice;
-
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -45,6 +33,18 @@ import org.cyanogenmod.audiofx.service.AudioFxService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.media.AudioDeviceInfo.TYPE_BLUETOOTH_A2DP;
+import static android.media.AudioDeviceInfo.TYPE_BLUETOOTH_SCO;
+import static android.media.AudioDeviceInfo.TYPE_DOCK;
+import static android.media.AudioDeviceInfo.TYPE_IP;
+import static android.media.AudioDeviceInfo.TYPE_LINE_ANALOG;
+import static android.media.AudioDeviceInfo.TYPE_LINE_DIGITAL;
+import static android.media.AudioDeviceInfo.TYPE_USB_ACCESSORY;
+import static android.media.AudioDeviceInfo.TYPE_USB_DEVICE;
+import static android.media.AudioDeviceInfo.TYPE_WIRED_HEADPHONES;
+import static android.media.AudioDeviceInfo.TYPE_WIRED_HEADSET;
+import static android.media.AudioDeviceInfo.convertDeviceTypeToInternalDevice;
 
 /**
  * Master configuration class for AudioFX.

@@ -17,6 +17,7 @@ package org.cyanogenmod.audiofx;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import org.cyanogenmod.audiofx.eq.EqUtils;
 
 import java.util.ArrayList;

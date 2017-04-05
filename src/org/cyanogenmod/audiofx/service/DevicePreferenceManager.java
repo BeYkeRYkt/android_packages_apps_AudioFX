@@ -15,6 +15,24 @@
  */
 package org.cyanogenmod.audiofx.service;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.media.AudioDeviceInfo;
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.cyanogenmod.audiofx.Constants;
+import org.cyanogenmod.audiofx.R;
+import org.cyanogenmod.audiofx.activity.MasterConfigControl;
+import org.cyanogenmod.audiofx.backends.EffectSet;
+import org.cyanogenmod.audiofx.backends.EffectsFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import static org.cyanogenmod.audiofx.Constants.AUDIOFX_GLOBAL_FILE;
 import static org.cyanogenmod.audiofx.Constants.AUDIOFX_GLOBAL_HAS_BASSBOOST;
 import static org.cyanogenmod.audiofx.Constants.AUDIOFX_GLOBAL_HAS_DTS;
@@ -38,24 +56,6 @@ import static org.cyanogenmod.audiofx.Constants.EQUALIZER_NUMBER_OF_PRESETS;
 import static org.cyanogenmod.audiofx.Constants.EQUALIZER_PRESET;
 import static org.cyanogenmod.audiofx.Constants.EQUALIZER_PRESET_NAMES;
 import static org.cyanogenmod.audiofx.Constants.SAVED_DEFAULTS;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.media.AudioDeviceInfo;
-import android.text.TextUtils;
-import android.util.Log;
-
-import org.cyanogenmod.audiofx.Constants;
-import org.cyanogenmod.audiofx.R;
-import org.cyanogenmod.audiofx.activity.MasterConfigControl;
-import org.cyanogenmod.audiofx.backends.EffectSet;
-import org.cyanogenmod.audiofx.backends.EffectsFactory;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 public class DevicePreferenceManager
         implements AudioOutputChangeListener.AudioOutputChangedCallback {

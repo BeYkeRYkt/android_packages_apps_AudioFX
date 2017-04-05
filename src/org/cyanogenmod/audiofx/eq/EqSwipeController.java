@@ -16,7 +16,6 @@
 package org.cyanogenmod.audiofx.eq;
 
 import android.content.Context;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;

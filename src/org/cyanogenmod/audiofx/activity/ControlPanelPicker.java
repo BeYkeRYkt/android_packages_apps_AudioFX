@@ -16,12 +16,6 @@
 
 package org.cyanogenmod.audiofx.activity;
 
-import com.android.internal.app.AlertActivity;
-import com.android.internal.app.AlertController;
-import com.android.internal.app.AlertController.AlertParams.OnPrepareListViewListener;
-import org.cyanogenmod.audiofx.Compatibility;
-import org.cyanogenmod.audiofx.Compatibility.Service;
-
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -33,6 +27,13 @@ import android.database.MatrixCursor;
 import android.media.audiofx.AudioEffect;
 import android.os.Bundle;
 import android.widget.ListView;
+
+import com.android.internal.app.AlertActivity;
+import com.android.internal.app.AlertController;
+import com.android.internal.app.AlertController.AlertParams.OnPrepareListViewListener;
+
+import org.cyanogenmod.audiofx.Compatibility;
+import org.cyanogenmod.audiofx.Compatibility.Service;
 import org.cyanogenmod.audiofx.R;
 
 import java.util.List;

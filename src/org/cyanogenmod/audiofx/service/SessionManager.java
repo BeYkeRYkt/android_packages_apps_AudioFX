@@ -15,6 +15,25 @@
  */
 package org.cyanogenmod.audiofx.service;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.AudioDeviceInfo;
+import android.media.AudioManager;
+import android.media.AudioSystem;
+import android.media.audiofx.PresetReverb;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
+import android.util.SparseArray;
+
+import org.cyanogenmod.audiofx.backends.EffectSet;
+import org.cyanogenmod.audiofx.backends.EffectsFactory;
+import org.cyanogenmod.audiofx.eq.EqUtils;
+
+import cyanogenmod.media.AudioSessionInfo;
+import cyanogenmod.media.CMAudioManager;
+
 import static org.cyanogenmod.audiofx.Constants.DEVICE_AUDIOFX_BASS_ENABLE;
 import static org.cyanogenmod.audiofx.Constants.DEVICE_AUDIOFX_BASS_STRENGTH;
 import static org.cyanogenmod.audiofx.Constants.DEVICE_AUDIOFX_EQ_PRESET_LEVELS;
@@ -35,25 +54,6 @@ import static org.cyanogenmod.audiofx.service.AudioFxService.REVERB_CHANGED;
 import static org.cyanogenmod.audiofx.service.AudioFxService.TREBLE_BOOST_CHANGED;
 import static org.cyanogenmod.audiofx.service.AudioFxService.VIRTUALIZER_CHANGED;
 import static org.cyanogenmod.audiofx.service.AudioFxService.VOLUME_BOOST_CHANGED;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.AudioDeviceInfo;
-import android.media.AudioManager;
-import android.media.AudioSystem;
-import android.media.audiofx.PresetReverb;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.util.Log;
-import android.util.SparseArray;
-
-import org.cyanogenmod.audiofx.backends.EffectSet;
-import org.cyanogenmod.audiofx.backends.EffectsFactory;
-import org.cyanogenmod.audiofx.eq.EqUtils;
-
-import cyanogenmod.media.AudioSessionInfo;
-import cyanogenmod.media.CMAudioManager;
 
 class SessionManager implements AudioOutputChangeListener.AudioOutputChangedCallback {
 

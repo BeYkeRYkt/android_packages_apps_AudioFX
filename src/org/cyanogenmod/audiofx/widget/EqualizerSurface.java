@@ -36,8 +36,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
-
 import android.view.animation.DecelerateInterpolator;
+
 import org.cyanogenmod.audiofx.R;
 
 import java.util.Arrays;

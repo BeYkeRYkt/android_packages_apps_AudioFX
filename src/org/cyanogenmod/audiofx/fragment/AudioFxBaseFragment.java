@@ -18,8 +18,7 @@ package org.cyanogenmod.audiofx.fragment;
 import android.animation.Animator;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.widget.CompoundButton;
-import org.cyanogenmod.audiofx.activity.ActivityMusic;
+
 import org.cyanogenmod.audiofx.activity.MasterConfigControl;
 
 public class AudioFxBaseFragment extends Fragment {
