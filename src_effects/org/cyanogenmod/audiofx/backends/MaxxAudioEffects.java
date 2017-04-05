@@ -34,9 +34,9 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
     private static final short PRESET_SPEAKER = (short) 1;
     private static final short PRESET_USB = (short) 6;
     private static final String TAG = "AudioFx-MaxxAudio";
-    private int mBypassed = -1;
+    private int mBypassed;
     private MaxxEffect mMaxxEffect;
-    private final BitSet mSubEffectBits = new BitSet();
+    private final BitSet mSubEffectBits;
 
     static class MaxxEffect extends AudioEffect {
         private static final int SL_CMD_WAVESFX_AF_DEVICE_DISABLE = 65562;
@@ -122,8 +122,11 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
 
     public MaxxAudioEffects(int sessionId, AudioDeviceInfo deviceInfo) {
         super(sessionId, deviceInfo);
+        this.mSubEffectBits = new BitSet();
+        this.mBypassed = -1;
     }
 
+    @Override
     protected void onCreate() {
         this.mMaxxEffect = new MaxxEffect(100, this.mSessionId);
         this.mMaxxEffect.setSoundMode(PRESET_HEADSET);
@@ -131,54 +134,67 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         super.onCreate();
     }
 
+    @Override
     public boolean hasTrebleBoost() {
         return true;
     }
 
+    @Override
     public boolean hasVolumeBoost() {
         return true;
     }
 
+    @Override
     public boolean hasVirtualizer() {
         return true;
     }
 
+    @Override
     public boolean hasBassBoost() {
         return true;
     }
 
+    @Override
     public void enableBassBoost(boolean enable) {
         enableSubEffect(MAXXBASS, enable);
     }
 
+    @Override
     public void setBassBoostStrength(short strength) {
-        setParameterSafe(MAAP_MAXX_BASS_EFFECT, ((double) strength) / 10.0d);
+        setParameterSafe(MAAP_MAXX_BASS_EFFECT, ((double) strength) / 10.0);
     }
 
+    @Override
     public void enableVirtualizer(boolean enable) {
         enableSubEffect(MAXXSPACE, enable);
     }
 
+    @Override
     public void setVirtualizerStrength(short strength) {
-        setParameterSafe(MAAP_MAXX_3D_EFFECT, ((double) strength) / 10.0d);
+        setParameterSafe(MAAP_MAXX_3D_EFFECT, ((double) strength) / 10.0);
     }
 
+    @Override
     public void enableTrebleBoost(boolean enable) {
         enableSubEffect(MAXXTREBLE, enable);
     }
 
+    @Override
     public void setTrebleBoostStrength(short strength) {
         setParameterSafe(MAAP_MAXX_HF_EFFECT, (double) strength);
     }
 
+    @Override
     public void enableVolumeBoost(boolean enable) {
         enableSubEffect(MAXXVOLUME, enable);
     }
 
+    @Override
     public int getBrand() {
-        return MAXXSPACE;
+        return Constants.EFFECT_TYPE_MAXXAUDIO;
     }
 
+    @Override
     public synchronized void setGlobalEnabled(boolean globalEnabled) {
         int bypass = globalEnabled ? MAXXBASS : MAXXTREBLE;
         try {
@@ -195,10 +211,12 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         super.setGlobalEnabled(globalEnabled);
     }
 
+    @Override
     public boolean beginUpdate() {
-        return this.mMaxxEffect != null ? super.beginUpdate() : false;
+        return this.mMaxxEffect != null && super.beginUpdate();
     }
 
+    @Override
     public boolean commitUpdate() {
         if (this.mMaxxEffect == null) {
             return false;
@@ -207,10 +225,12 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         return super.commitUpdate();
     }
 
+    @Override
     public int getReleaseDelay() {
         return 8000;
     }
 
+    @Override
     public synchronized void setDevice(AudioDeviceInfo deviceInfo) {
         super.setDevice(deviceInfo);
         this.mSubEffectBits.clear();
@@ -222,6 +242,7 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         }
     }
 
+    @Override
     public synchronized void release() {
         super.release();
         if (this.mMaxxEffect != null) {
@@ -252,22 +273,22 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
 
     private void updateDeviceSpecificParameters() {
         double d;
-        double d2 = 1.0d;
-        double d3 = 0.0d;
+        double d2 = 1.0;
+        double d3 = 0.0;
         boolean smallSpeakers = getDevice() != null ? getDevice().getType() == MAXXSPACE : true;
         boolean originalBass = (this.mSubEffectBits.get(MAXXBASS) && smallSpeakers) ? false : true;
         if (originalBass) {
-            d = 1.0d;
+            d = 1.0;
         } else {
-            d = 0.0d;
+            d = 0.0;
         }
         setParameterSafe(MAAP_MAXX_BASS_ORIGINAL_BASS, d);
         if (!smallSpeakers) {
-            d3 = 6.0d;
+            d3 = 6.0;
         }
         setParameterSafe(MAAP_MAXX_3D_LOW_FREQUENCY, d3);
         if (!smallSpeakers) {
-            d2 = 2.0d;
+            d2 = 2.0;
         }
         setParameterSafe(MAAP_MAXX_3D_SPAN, d2);
     }
@@ -305,7 +326,7 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         if (param < 0) {
             return false;
         }
-        if (!setParameterSafe(param, enable ? 1.0d : 0.0d)) {
+        if (!setParameterSafe(param, enable ? 1.0 : 0.0)) {
             return false;
         }
         this.mSubEffectBits.set(type, enable);
