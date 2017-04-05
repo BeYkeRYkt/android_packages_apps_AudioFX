@@ -291,6 +291,12 @@ public class AudioFxService extends Service
         if (DEBUG) Log.i(TAG, "Stopping service.");
 
         mOutputListener.removeCallback(this, mSessionManager, mDevicePrefs);
+
+        final CMAudioManager cma = CMAudioManager.getInstance(getApplicationContext());
+        for (AudioSessionInfo asi : cma.listAudioSessions(AudioManager.STREAM_MUSIC)) {
+            mSessionManager.removeSession(asi);
+        }
+
         if (mSessionManager != null) {
             mSessionManager.onDestroy();
         }
@@ -331,6 +337,8 @@ public class AudioFxService extends Service
      * Queue up a backend update.
      */
     private void update(int flags) {
+        mOutputListener.refresh();
+        mCurrentDevice = mOutputListener.getCurrentDevice();
         mSessionManager.update(flags);
 
         if ((flags & ALL_CHANGED) == ALL_CHANGED) {
