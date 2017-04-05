@@ -7,7 +7,10 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.util.Pair;
+
+import org.cyanogenmod.audiofx.Constants;
 import org.cyanogenmod.audiofx.eq.EqUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -159,7 +162,7 @@ public class DtsEffects extends EffectSet {
     }
 
     public int getBrand() {
-        return 3;
+        return Constants.EFFECT_TYPE_DTS;
     }
 
     public boolean hasVirtualizer() {
