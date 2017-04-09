@@ -292,11 +292,6 @@ public class AudioFxService extends Service
 
         mOutputListener.removeCallback(this, mSessionManager, mDevicePrefs);
 
-        final CMAudioManager cma = CMAudioManager.getInstance(getApplicationContext());
-        for (AudioSessionInfo asi : cma.listAudioSessions(AudioManager.STREAM_MUSIC)) {
-            mSessionManager.removeSession(asi);
-        }
-
         if (mSessionManager != null) {
             mSessionManager.onDestroy();
         }
