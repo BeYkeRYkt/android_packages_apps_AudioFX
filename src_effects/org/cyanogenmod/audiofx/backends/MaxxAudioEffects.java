@@ -53,7 +53,7 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         private static final short SOUNDMODE_VOICE = (short) 1;
 
         public MaxxEffect(int priority, int audioSession) throws RuntimeException {
-            super(UUID.fromString("a122acc0-5943-11e0-acd3-0002a5d5c51b"), EFFECT_TYPE_NULL, priority, audioSession);
+            super(UUID.fromString("a122acc0-5943-11e0-acd3-0002a5d5c51b"), UUID.fromString("ae12da60-99ac-11df-b456-0002a5d5c51b"), priority, audioSession);
             setDeviceDetectionEnabled(false);
         }
 
