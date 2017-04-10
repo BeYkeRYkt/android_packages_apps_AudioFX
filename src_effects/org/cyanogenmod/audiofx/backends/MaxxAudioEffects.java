@@ -106,6 +106,7 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         public int setPresetParameter(int param, double value, short outputMode, short soundMode) {
             byte[] cmd = new byte[16];
             byte[] ret = new byte[4];
+
             System.arraycopy(intToByteArray(param), 0, cmd, 0, 4);
             System.arraycopy(doubleToByteArray(value), 0, cmd, 4, 8);
             System.arraycopy(shortToByteArray(outputMode), 0, cmd, 12, 2);
@@ -177,11 +178,13 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
     @Override
     public void enableTrebleBoost(boolean enable) {
         enableSubEffect(MAXXTREBLE, enable);
+        setParameterSafe(MAAP_CENTER_ACTIVE, enable ? 1.0 : 0.0);
     }
 
     @Override
     public void setTrebleBoostStrength(short strength) {
         setParameterSafe(MAAP_MAXX_HF_EFFECT, (double) strength);
+        setParameterSafe(MAAP_CENTER_GAIN_CENTER, ((double) strength));
     }
 
     @Override
@@ -275,8 +278,8 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         double d;
         double d2 = 1.0;
         double d3 = 0.0;
-        boolean smallSpeakers = getDevice() != null ? getDevice().getType() == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER : true;
-        boolean originalBass = (this.mSubEffectBits.get(0) && smallSpeakers) ? false : true;
+        boolean smallSpeakers = getDevice() != null && getDevice().getType() == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER;
+        boolean originalBass = (this.mSubEffectBits.get(MAXXBASS) && smallSpeakers) ? false : true;
         if (originalBass) {
             d = 1.0;
         } else {
