@@ -5,6 +5,7 @@ import android.media.audiofx.AudioEffect;
 import android.util.Log;
 import org.cyanogenmod.audiofx.Constants;
 import org.cyanogenmod.audiofx.activity.MasterConfigControl;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.BitSet;
@@ -34,9 +35,9 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
     private static final short PRESET_SPEAKER = (short) 1;
     private static final short PRESET_USB = (short) 6;
     private static final String TAG = "AudioFx-MaxxAudio";
-    private int mBypassed;
+    private int mBypassed = -1;
     private MaxxEffect mMaxxEffect;
-    private final BitSet mSubEffectBits;
+    private final BitSet mSubEffectBits = new BitSet();
 
     static class MaxxEffect extends AudioEffect {
         private static final int SL_CMD_WAVESFX_AF_DEVICE_DISABLE = 65562;
@@ -56,44 +57,45 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
             setDeviceDetectionEnabled(false);
         }
 
+        @Override
         public int setEnabled(boolean enabled) throws IllegalStateException {
             return super.setEnabled(enabled);
         }
 
         private int setDeviceDetectionEnabled(boolean enabled) {
-            byte[] ret = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
-            checkStatus(command(enabled ? SL_CMD_WAVESFX_AF_DEVICE_ENABLE : SL_CMD_WAVESFX_AF_DEVICE_DISABLE, new byte[MaxxAudioEffects.MAXXBASS], ret));
+            byte[] ret = new byte[4];
+            checkStatus(command(enabled ? SL_CMD_WAVESFX_AF_DEVICE_ENABLE : SL_CMD_WAVESFX_AF_DEVICE_DISABLE, new byte[0], ret));
             return byteArrayToInt(ret);
         }
 
         public int setOutputMode(short outputMode) {
-            byte[] ret = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
+            byte[] ret = new byte[4];
             checkStatus(command(SL_CMD_WAVESFX_SET_OUTDEVICE, shortToByteArray(outputMode), ret));
             return byteArrayToInt(ret);
         }
 
         public int setSoundMode(short soundMode) {
-            byte[] ret = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
+            byte[] ret = new byte[4];
             checkStatus(command(SL_CMD_WAVESFX_SET_SOUNDMODE, shortToByteArray(soundMode), ret));
             return byteArrayToInt(ret);
         }
 
         public int setBypass(boolean bypass) {
-            int i = MaxxAudioEffects.MAXXTREBLE;
-            byte[] ret = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
-            byte[] cmd = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
-            System.arraycopy(shortToByteArray(SOUNDMODE_VOICE), MaxxAudioEffects.MAXXBASS, cmd, MaxxAudioEffects.MAXXBASS, MaxxAudioEffects.MAXXSPACE);
+            int i = 1;
+            byte[] ret = new byte[4];
+            byte[] cmd = new byte[4];
+            System.arraycopy(shortToByteArray(SOUNDMODE_VOICE), 0, cmd, 0, 2);
             if (!bypass) {
-                i = MaxxAudioEffects.MAXXBASS;
+                i = 0;
             }
-            System.arraycopy(shortToByteArray((short) i), MaxxAudioEffects.MAXXBASS, cmd, MaxxAudioEffects.MAXXSPACE, MaxxAudioEffects.MAXXSPACE);
+            System.arraycopy(shortToByteArray((short) i), 0, cmd, 2, 2);
             checkStatus(command(SL_CMD_WAVESFX_SET_SMOOTHING, cmd, ret));
             return byteArrayToInt(ret);
         }
 
         public int clearUserParameters() {
-            byte[] ret = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
-            checkStatus(command(SL_CMD_WAVESFX_CLEAR_PARAMETERS, new byte[MaxxAudioEffects.MAXXBASS], ret));
+            byte[] ret = new byte[4];
+            checkStatus(command(SL_CMD_WAVESFX_CLEAR_PARAMETERS, new byte[0], ret));
             return byteArrayToInt(ret);
         }
 
@@ -103,11 +105,11 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
 
         public int setPresetParameter(int param, double value, short outputMode, short soundMode) {
             byte[] cmd = new byte[16];
-            byte[] ret = new byte[MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT];
-            System.arraycopy(intToByteArray(param), MaxxAudioEffects.MAXXBASS, cmd, MaxxAudioEffects.MAXXBASS, MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT);
-            System.arraycopy(doubleToByteArray(value), MaxxAudioEffects.MAXXBASS, cmd, MaxxAudioEffects.MAAP_MAXX_BASS_EFFECT, 8);
-            System.arraycopy(shortToByteArray(outputMode), MaxxAudioEffects.MAXXBASS, cmd, MaxxAudioEffects.MAAP_MAXX_3D_LOW_FREQUENCY, MaxxAudioEffects.MAXXSPACE);
-            System.arraycopy(shortToByteArray(soundMode), MaxxAudioEffects.MAXXBASS, cmd, 14, MaxxAudioEffects.MAXXSPACE);
+            byte[] ret = new byte[4];
+            System.arraycopy(intToByteArray(param), 0, cmd, 0, 4);
+            System.arraycopy(doubleToByteArray(value), 0, cmd, 4, 8);
+            System.arraycopy(shortToByteArray(outputMode), 0, cmd, 12, 2);
+            System.arraycopy(shortToByteArray(soundMode), 0, cmd, 14, 2);
             checkStatus(command(SL_CMD_WAVESFX_PRESET_SET_PARAMETER, cmd, ret));
             return byteArrayToInt(ret);
         }
@@ -122,8 +124,6 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
 
     public MaxxAudioEffects(int sessionId, AudioDeviceInfo deviceInfo) {
         super(sessionId, deviceInfo);
-        this.mSubEffectBits = new BitSet();
-        this.mBypassed = -1;
     }
 
     @Override
@@ -196,7 +196,7 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
 
     @Override
     public synchronized void setGlobalEnabled(boolean globalEnabled) {
-        int bypass = globalEnabled ? MAXXBASS : MAXXTREBLE;
+        int bypass = globalEnabled ? 0 : 1;
         try {
             if (this.mBypassed != bypass) {
                 if (!globalEnabled) {
@@ -266,7 +266,7 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
             return PRESET_HEADSET;
         }
         if (dev.equals(Constants.DEVICE_LINE_OUT) || dev.startsWith(Constants.DEVICE_PREFIX_BLUETOOTH) || dev.startsWith(Constants.DEVICE_PREFIX_CAST) || dev.startsWith(Constants.DEVICE_PREFIX_USB)) {
-            return PRESET_USB;
+            return PRESET_LINE_OUT;
         }
         return PRESET_SPEAKER;
     }
@@ -275,8 +275,8 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
         double d;
         double d2 = 1.0;
         double d3 = 0.0;
-        boolean smallSpeakers = getDevice() != null ? getDevice().getType() == MAXXSPACE : true;
-        boolean originalBass = (this.mSubEffectBits.get(MAXXBASS) && smallSpeakers) ? false : true;
+        boolean smallSpeakers = getDevice() != null ? getDevice().getType() == AudioDeviceInfo.TYPE_BUILTIN_SPEAKER : true;
+        boolean originalBass = (this.mSubEffectBits.get(0) && smallSpeakers) ? false : true;
         if (originalBass) {
             d = 1.0;
         } else {
@@ -310,16 +310,16 @@ class MaxxAudioEffects extends EffectSetWithAndroidEq {
     private boolean enableSubEffect(int type, boolean enable) {
         int param = -1;
         switch (type) {
-            case MAXXBASS /*0*/:
+            case MAXXBASS:
                 param = MAAP_MAXX_BASS_ACTIVE;
                 break;
-            case MAXXTREBLE /*1*/:
+            case MAXXTREBLE:
                 param = MAAP_MAXX_HF_ACTIVE;
                 break;
-            case MAXXSPACE /*2*/:
+            case MAXXSPACE:
                 param = MAAP_MAXX_3D_ACTIVE;
                 break;
-            case MAXXVOLUME /*3*/:
+            case MAXXVOLUME:
                 param = MAAP_IVOLUME_ACTIVE;
                 break;
         }
