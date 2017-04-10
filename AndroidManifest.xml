@@ -16,8 +16,8 @@
 <manifest
         xmlns:android="http://schemas.android.com/apk/res/android"
         package="org.cyanogenmod.audiofx"
-        android:versionName="2.2.1"
-        android:versionCode="20201">
+        android:versionName="2.2.2"
+        android:versionCode="20202">
 
     <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="23" />
 
