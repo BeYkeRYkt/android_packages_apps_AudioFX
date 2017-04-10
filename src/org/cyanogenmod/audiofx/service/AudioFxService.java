@@ -141,7 +141,6 @@ public class AudioFxService extends Service
         mOutputListener = new AudioOutputChangeListener(getApplicationContext(), mHandler);
         mOutputListener.addCallback(this);
 
-        //mCurrentDevice is null ?
         mCurrentDevice = mOutputListener.getCurrentDevice();
 
         mDevicePrefs = new DevicePreferenceManager(getApplicationContext(), mCurrentDevice);
@@ -291,7 +290,6 @@ public class AudioFxService extends Service
         if (DEBUG) Log.i(TAG, "Stopping service.");
 
         mOutputListener.removeCallback(this, mSessionManager, mDevicePrefs);
-
         if (mSessionManager != null) {
             mSessionManager.onDestroy();
         }

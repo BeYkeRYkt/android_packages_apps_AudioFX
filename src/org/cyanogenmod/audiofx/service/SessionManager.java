@@ -123,14 +123,10 @@ class SessionManager implements AudioOutputChangeListener.AudioOutputChangedCall
      * either since these are usually notifications/ringtones/etc.
      */
     public boolean shouldHandleSession(AudioSessionInfo info) {
-//        final boolean music = info.getStream() == AudioManager.STREAM_MUSIC;
-//        final boolean offloaded = (info.getFlags() < 0)
-//                || (info.getFlags() & AudioFxService.AUDIO_OUTPUT_FLAG_COMPRESS_OFFLOAD) > 0
-//                || (info.getFlags() & AudioFxService.AUDIO_OUTPUT_FLAG_DEEP_BUFFER) > 0;
-//        final boolean stereo = info.getChannelMask() < 0 || info.getChannelMask() > 1;
-//
-//        return music && offloaded && stereo && info.getSessionId() > 0;
         final boolean music = info.getStream() == AudioManager.STREAM_MUSIC;
+        //final boolean offloaded = (info.getFlags() < 0)
+        //        || (info.getFlags() & AudioFxService.AUDIO_OUTPUT_FLAG_COMPRESS_OFFLOAD) > 0
+        //        || (info.getFlags() & AudioFxService.AUDIO_OUTPUT_FLAG_DEEP_BUFFER) > 0;
         final boolean stereo = info.getChannelMask() < 0 || info.getChannelMask() > 1;
 
         return music && stereo && info.getSessionId() > 0;
@@ -405,7 +401,7 @@ class SessionManager implements AudioOutputChangeListener.AudioOutputChangedCall
                             sessionId = mAudioSessionsL.keyAt(i);
                             session = mAudioSessionsL.get(sessionId);
                             if (session != null) {
-                                session.setEqualizerBandLevel((short) msg.arg1, (Float) msg.obj);
+                                session.setEqualizerBandLevel((short) msg.arg1, (float) msg.obj);
                             }
                         }
                         break;

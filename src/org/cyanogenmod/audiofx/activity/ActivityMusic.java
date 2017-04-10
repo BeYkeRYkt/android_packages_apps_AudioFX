@@ -118,7 +118,8 @@ public class ActivityMusic extends Activity {
     @Override
     protected void onDestroy() {
         if (mServiceReadyObserver != null) {
-            Constants.getGlobalPrefs(this).unregisterOnSharedPreferenceChangeListener(mServiceReadyObserver);
+            Constants.getGlobalPrefs(this)
+                    .unregisterOnSharedPreferenceChangeListener(mServiceReadyObserver);
             mServiceReadyObserver = null;
         }
         super.onDestroy();
