@@ -26,9 +26,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-
+import android.widget.Switch;
+import org.cyanogenmod.audiofx.AudioFxApplication;
 import org.cyanogenmod.audiofx.Constants;
 import org.cyanogenmod.audiofx.R;
 import org.cyanogenmod.audiofx.fragment.AudioFxFragment;
@@ -43,7 +43,7 @@ public class ActivityMusic extends Activity {
     public static final String TAG_AUDIOFX = "audiofx";
     public static final String EXTRA_CALLING_PACKAGE = "audiofx::extra_calling_package";
 
-    private CheckBox mCurrentDeviceToggle;
+    private Switch mCurrentDeviceToggle;
     MasterConfigControl mConfig;
     String mCallingPackage;
 
@@ -139,7 +139,7 @@ public class ActivityMusic extends Activity {
         ab.setCustomView(extraView, lp);
         ab.setDisplayShowCustomEnabled(true);
 
-        mCurrentDeviceToggle = (CheckBox) ab.getCustomView().findViewById(R.id.global_toggle);
+        mCurrentDeviceToggle = (Switch) ab.getCustomView().findViewById(R.id.global_toggle);
         mCurrentDeviceToggle.setOnCheckedChangeListener(mGlobalEnableToggleListener);
 
         if (savedInstanceState == null && findViewById(R.id.main_fragment) != null) {
